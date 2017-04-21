@@ -1,0 +1,26 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="QA_Center:war exploded">
+    <output-path>$PROJECT_DIR$/target/QA_Center</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="QA_Center" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.springframework:spring-core:unknown" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:unknown" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:unknown" />
+          <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:1.2.2" />
+          <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.2.2" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.21" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.6" />
+          <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.7.6" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/QA_Center/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="QA_Center/web/Web" />
+    </root>
+  </artifact>
+</component>
