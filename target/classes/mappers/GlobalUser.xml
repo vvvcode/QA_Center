@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--使用sqlsession获取结果，namespace应该为对象类路径-->
+<!--<mapper namespace="model.GlobalUser">    -->
+    <!--<select id="selectGlobalUserByUid" parameterType="String" resultType="GlobalUser">-->
+        <!--select * from `TAB_GLOBAL_USER` where uid = #{uid}-->
+    <!--</select>-->
+<!--</mapper>-->
+
+<!--使用数据接口方式获取结果，namespace应该为接口路径-->
+<mapper namespace="dao.GlobalUserDao">
+
+    <select id="selectGlobalUserByUid" parameterType="String" resultType="GlobalUser">
+        select * from TAB_GLOBAL_USER where uid = #{uid}
+    </select>
+
+    <resultMap type="GlobalUser" id="users">
+        <result column="uid" property="uid"/>
+        <result column="accountType" property="accountType"/>
+        <result column="createdAt" property="createdAt"/>
+    </resultMap>
+
+    <!--新增一个intlaccount result map，复用global user result map联表查询一个用户的国际账户开户信息-->
+    <resultMap type="IntlAccount" id="GlobalUserIntlAccounts">
+        <result column="uid" property="uid"/>
+        <result column="email" property="email"/>
+        <result column="done" property="done"/>
+        <association property="globalUser" javaType="GlobalUser" resultMap="users"/>
+    </resultMap>
+
+    <select id="selectGlobalUserByUidLike" parameterType="String" resultMap="users">
+        SELECT * FROM TAB_GLOBAL_USER WHERE uid like #{uid_parten}
+    </select>
+
+    <insert id="addGlobalUser" parameterType="GlobalUser" useGeneratedKeys="false">
+        INSERT INTO TAB_GLOBAL_USER(uid,accountType) VALUES (#{uid},#{accountType})
+    </insert>
+
+    <update id="modifyGlobalUserAccountTypeByUid" parameterType="GlobalUser">
+        UPDATE TAB_GLOBAL_USER SET accountType = #{accountType} WHERE uid = #{uid}
+    </update>
+
+    <delete id="deleteGlobalUserByUid" parameterType="String">
+        DELETE FROM TAB_GLOBAL_USER WHERE uid = #{uid}
+    </delete>
+
+    <!--联表查询-->
+    <select id="getGlobalUserIntlAccountByUid" parameterType="String" resultMap="GlobalUserIntlAccounts">
+        SELECT TAB_GLOBAL_USER.uid,TAB_GLOBAL_USER.accountType,TAB_ACCOUNT_GBL_INTL.email,TAB_ACCOUNT_GBL_INTL.done
+        from TAB_GLOBAL_USER,TAB_ACCOUNT_GBL_INTL
+        WHERE TAB_GLOBAL_USER.uid = TAB_ACCOUNT_GBL_INTL.uid AND TAB_GLOBAL_USER.uid = #{uid}
+    </select>
+
+</mapper>

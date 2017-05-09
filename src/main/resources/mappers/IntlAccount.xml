@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--使用sqlsession获取结果，namespace应该为对象类路径-->
+<!--<mapper namespace="model.GlobalUser">    -->
+<!--<select id="selectGlobalUserByUid" parameterType="String" resultType="GlobalUser">-->
+<!--select * from `TAB_GLOBAL_USER` where uid = #{uid}-->
+<!--</select>-->
+<!--</mapper>-->
+
+<!--使用数据接口方式获取结果，namespace应该为接口路径-->
+<mapper namespace="dao.IntlAccountDao">
+    <select id="selectIntlAccountByUid" parameterType="String" resultType="IntlAccount">
+        select * from TAB_ACCOUNT_GBL_INTL where uid = #{uid}
+    </select>
+
+    <resultMap type="IntlAccount" id="intlAccounts">
+        <result column="uid" property="uid"/>
+        <result column="done" property="done"/>
+        <result column="email" property="email"/>
+    </resultMap>
+
+    <select id="selectIntlAccountByUidLike" parameterType="String" resultMap="intlAccounts">
+        SELECT * FROM TAB_ACCOUNT_GBL_INTL WHERE uid like #{uid_parten}
+    </select>
+
+    <insert id="addIntlAccount" parameterType="IntlAccount" useGeneratedKeys="false">
+        INSERT INTO TAB_ACCOUNT_GBL_INTL(uid,email) VALUES (#{uid},#{email})
+    </insert>
+
+    <update id="modifyIntlAccountEmailByUid" parameterType="IntlAccount">
+        UPDATE TAB_ACCOUNT_GBL_INTL SET email = #{email} WHERE uid = #{uid}
+    </update>
+
+    <delete id="deleteIntlAccountByUid" parameterType="String">
+        DELETE FROM TAB_ACCOUNT_GBL_INTL WHERE uid = #{uid}
+    </delete>
+</mapper>
